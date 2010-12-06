@@ -83,6 +83,10 @@ describe Regrit::RemoteRepo do
         it "has a master ref" do
           subject.ref('master').name.should == 'refs/heads/master'
         end
+
+        it "has a refs/heads/master ref" do
+          subject.ref('refs/heads/master').name.should == 'refs/heads/master'
+        end
       end
 
       it "raises on initialization without a key" do
