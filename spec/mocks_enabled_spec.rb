@@ -30,7 +30,7 @@ describe Regrit::RemoteRepo do
       before { Regrit::Provider::Mock.accessible = true }
 
       it "still raises on bad key" do
-        pending("should we care if the key is blank mock mode?") do
+        pending("should we care if the key is blank in mock mode?") do
           lambda { described_class.new(@uri, :private_key => '') }.should raise_error
         end
       end
@@ -45,7 +45,7 @@ describe Regrit::RemoteRepo do
       before { Regrit::Provider::Mock.accessible = false }
 
       it "still raises on bad key" do
-        pending("should we care if the key is blank mock mode?") do
+        pending("should we care if the key is blank in mock mode?") do
           lambda { described_class.new(@uri, :private_key => '') }.should raise_error
         end
       end
