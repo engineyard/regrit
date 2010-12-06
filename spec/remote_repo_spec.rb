@@ -59,14 +59,14 @@ describe Regrit::RemoteRepo do
     context "(non-existant)" do
       subject { described_class.new("git://github.com/engineyard/this_project_will_never_exist_and_if_it_does_then_this_will_break.git") }
 
-      it { should_not be_auth_required }
+      it { should_not be_private_key_required }
       it { should_not be_accessible }
     end
 
     context "(public)" do
       subject { described_class.new("git://github.com/rails/rails.git") }
 
-      it { should_not be_auth_required }
+      it { should_not be_private_key_required }
       it { should be_accessible }
     end
 
@@ -74,7 +74,7 @@ describe Regrit::RemoteRepo do
       before { @uri = "git@github.com:martinemde/regrit.git" }
       subject { described_class.new(@uri, :private_key => private_key) }
 
-      it { should be_auth_required }
+      it { should be_private_key_required }
       it { should be_accessible }
 
       describe "loading refs" do
