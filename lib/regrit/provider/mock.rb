@@ -25,13 +25,10 @@ module Regrit
       def initialize(uri, options)
       end
 
-      def ls_remote(name=nil)
+      def ls_remote(named=nil)
         raise_if_not_accessible!
-        if name
-          self.class.refs.split(/\n/).detect do |ref|
-            ref_name = ref.split(/\t/).last
-            ref_name.split('/').last == name || ref_name.split('/',2).last == name || ref_name == name # git style matching
-          end
+        if named
+          one_ref(named) || ''
         else
           self.class.refs
         end
@@ -51,6 +48,16 @@ module Regrit
 
       def pull(*argv)
         raise NotImplemented
+      end
+
+      protected
+
+
+      def one_ref(named)
+        self.class.refs.split(/\n/).detect do |ref|
+          ref_name = ref.split(/\t/).last
+          ref_name.split('/').last == named || ref_name.split('/',2).last == named || ref_name == named # git style matching
+        end
       end
 
       def raise_if_not_accessible!

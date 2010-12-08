@@ -66,6 +66,10 @@ describe Regrit::RemoteRepo do
       subject.refs.first.name.should == "HEAD"
     end
 
+    it "returns nil if no ref matches" do
+      subject.ref('thisdoesntexist').should be_nil
+    end
+
     context "(setting the response)" do
       before do
         Regrit::Provider::Mock.refs = <<-REFS

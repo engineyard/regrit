@@ -1,6 +1,4 @@
 module Regrit
-  @mocking = false
-
   def self.enable_mock!
     Provider::Mock.default!
     @mocking = true
@@ -13,6 +11,8 @@ module Regrit
   def self.mocking?
     @mocking
   end
+
+  disable_mock!
 end
 
 require 'regrit/errors'
