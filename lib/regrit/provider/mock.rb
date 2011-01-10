@@ -10,9 +10,11 @@ module Regrit
       class << self
         attr_accessor :accessible
         attr_accessor :refs
+        attr_accessor :timeout
 
         def default!
           self.accessible = true
+          self.timeout = false
           self.refs = <<-REFS
 123456789abcdef0123456789abcdef012345678\tHEAD
 123456789abcdef0123456789abcdef012345678\trefs/heads/master
@@ -23,10 +25,11 @@ module Regrit
       default!
 
       def initialize(uri, options)
+        @uri = uri
       end
 
       def ls_remote(named=nil)
-        raise_if_not_accessible!
+        raise_errors
         if named
           one_ref(named) || ''
         else
@@ -60,9 +63,13 @@ module Regrit
         end
       end
 
-      def raise_if_not_accessible!
+      def raise_errors
         unless self.class.accessible
           raise CommandError.new('mock command', 1, '', 'stderr')
+        end
+
+        if self.class.timeout
+          raise TimeoutError.new('mock command', @uri)
         end
       end
 

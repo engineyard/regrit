@@ -21,6 +21,18 @@ describe Regrit::RemoteRepo do
       before { Regrit::Provider::Mock.accessible = false }
       it { should_not be_accessible }
     end
+
+    context "(mocked timeout)" do
+      before { Regrit::Provider::Mock.timeout = true }
+      it { should_not be_accessible }
+
+      it "should raise TimeoutError" do
+        subject { described_class.new(@uri) }
+
+        lambda { subject.refs }.should raise_error(Regrit::TimeoutError)
+      end
+    end
+
   end
 
   context "(private)" do
