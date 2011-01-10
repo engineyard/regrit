@@ -24,6 +24,13 @@ module Regrit
     end
   end
 
+  # Raised when accessing a repository times out
+  class TimeoutError < Inaccessible
+    def initialize(command, uri)
+      super "Timeout when attempting to access git repository: #{uri} with command: #{command.inspect}"
+    end
+  end
+
   # Raised when there is an error calling git ls-remote (i.e. inaccessible repo)
   class CommandError < Inaccessible
     def initialize(command, status, stdout, stderr)

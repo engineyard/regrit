@@ -41,13 +41,15 @@ module Regrit
 
       # Only require open4 here so as not to set a hard dependency.
       #
-      # Might raise TimeoutError
+      # Might raise CommandError or TimeoutError
       def spawn(command)
         stdout, stderr = '', ''
         Open4.spawn(command, :stdout => stdout, :stderr => stderr, :timeout => @timeout)
         stdout
       rescue Open4::SpawnError => e
         raise CommandError.new(e.cmd, e.exitstatus, stdout, stderr)
+      rescue Timeout::Error
+        raise TimeoutError.new(command, @uri)
       end
 
       def git_command

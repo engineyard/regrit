@@ -39,7 +39,7 @@ module Regrit
     # @return [Boolean] can the repository be accessed?
     def accessible?
       !!refs
-    rescue Inaccessible, TimeoutError
+    rescue Inaccessible
       false
     end
 
@@ -50,7 +50,7 @@ module Regrit
       @refs ||= load_refs
     end
 
-    # Use a git ls-remote to load all repository refs
+    # Use a git ls-remote to find a single ref
     #
     # @return [Ref, nil] A Ref object or nil
     def ref(named)
