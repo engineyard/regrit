@@ -1,6 +1,7 @@
 require 'open4'
 require 'escape'
 require 'git-ssh-wrapper'
+require 'system_timer'
 
 module Regrit
   module Provider
@@ -44,7 +45,9 @@ module Regrit
       # Might raise CommandError or TimeoutError
       def spawn(command)
         stdout, stderr = '', ''
-        Open4.spawn(command, :stdout => stdout, :stderr => stderr, :timeout => @timeout)
+        SystemTimer.timeout(@timeout) do
+          Open4.spawn(command, :stdout => stdout, :stderr => stderr, :timeout => @timeout)
+        end
         stdout
       rescue Open4::SpawnError => e
         raise CommandError.new(e.cmd, e.exitstatus, stdout, stderr)
