@@ -7,7 +7,7 @@ end
 $LOAD_PATH.unshift(File.dirname(__FILE__))
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 require 'regrit'
-require 'spec'
+require 'rspec'
 
 module TestPrivateKey
   def private_key
@@ -23,6 +23,6 @@ module TestPrivateKey
   end
 end
 
-Spec::Runner.configure do |config|
+RSpec.configure do |config|
   config.include TestPrivateKey
 end

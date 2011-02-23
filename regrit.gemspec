@@ -17,7 +17,7 @@ Gem::Specification.new do |s|
   s.add_dependency "git-ssh-wrapper", "~> 0.0.1"
   s.add_dependency "SystemTimer"
 
-  s.add_development_dependency "rspec", "~> 1.3"
+  s.add_development_dependency "rspec", "~> 2.0"
   s.add_development_dependency "rake"
 
   s.files         = `git ls-files`.split("\n")
