@@ -19,8 +19,7 @@ module Regrit
         raise InvalidURIError
       end
 
-      # no user without ssh and no ssh without user - ^ is the XOR operator
-      if @uri.ssh? ^ @uri.user
+      if @uri.interactive_authenticated?
         raise InvalidURIError
       end
 
