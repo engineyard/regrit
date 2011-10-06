@@ -11,12 +11,16 @@ Gem::Specification.new do |s|
   s.summary     = %q{Never regrit how you talk with remote git repositories}
   s.description = %q{Deal with remote git repositories, yo.}
 
-  s.add_dependency "gitable", "~> 0.2.1"
+  s.add_dependency "gitable",         "~> 0.2.1"
   s.add_dependency "open4"
   s.add_dependency "escape"
   s.add_dependency "git-ssh-wrapper", "~> 0.0.1"
-  s.add_dependency "SystemTimer"
+  s.add_dependency "system-timer19",  "~> 0.0.2"
 
+  if RUBY_VERSION =~ /^1\.8/
+    s.add_dependency "SystemTimer"
+  end
+  
   s.add_development_dependency "rspec", "~> 2.0"
   s.add_development_dependency "rake"
   s.add_development_dependency "rcov"
