@@ -9,8 +9,8 @@ module Regrit
 
       def initialize(uri, options)
         @uri = uri
-        @timeout = options[:timeout] || DEFAULT_TIMEOUT
-        load_git_ssh_wrapper(options) if @uri.ssh?
+        @options = options
+        @timeout = @options[:timeout] || DEFAULT_TIMEOUT
       end
 
       def ls_remote(named=nil)
@@ -56,11 +56,15 @@ module Regrit
 
       def git_command
         # GIT_ASKPASS='echo' keeps password prompts from stalling the proccess (they still fail)
-        "env GIT_ASKPASS='echo' #{@uri.ssh? ? @git_ssh_wrapper.git_ssh : ''} git"
+        "env GIT_ASKPASS='echo' #{git_ssh_wrapper_env} git"
       end
 
-      def load_git_ssh_wrapper(options)
-        @git_ssh_wrapper = GitSSHWrapper.new(options)
+      def git_ssh_wrapper_env
+        @uri.ssh? ? git_ssh_wrapper.git_ssh : ''
+      end
+
+      def git_ssh_wrapper
+        @git_ssh_wrapper ||= GitSSHWrapper.new(@options)
       rescue GitSSHWrapper::PrivateKeyRequired
         raise Regrit::PrivateKeyRequired.new(@uri)
       end

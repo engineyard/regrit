@@ -89,12 +89,16 @@ describe Regrit::RemoteRepo do
         end
       end
 
+      it "would raise if I used it, but can still be requested about auth" do
+        described_class.new(@uri).should be_private_key_required
+      end
+
       it "raises on initialization without a key" do
-        lambda { described_class.new(@uri) }.should raise_error(Regrit::PrivateKeyRequired)
+        lambda { described_class.new(@uri).refs }.should raise_error(Regrit::PrivateKeyRequired)
       end
 
       it "raises on initialization with an empty key" do
-        lambda { described_class.new(@uri, :private_key => '') }.should raise_error(Regrit::PrivateKeyRequired)
+        lambda { described_class.new(@uri, :private_key => '').refs }.should raise_error(Regrit::PrivateKeyRequired)
       end
 
       context "with wrong key" do

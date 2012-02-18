@@ -23,7 +23,7 @@ module Regrit
         raise InvalidURIError
       end
 
-      @provider = Provider.new(@uri, options)
+      @options = options
     end
 
     # Decide if the URI is likely to require authentication
@@ -58,7 +58,9 @@ module Regrit
 
     private
 
-    attr_reader :provider
+    def provider
+      @provider ||= Provider.new(@uri, @options)
+    end
 
     def load_refs(named=nil)
       raw_refs = provider.ls_remote(named)

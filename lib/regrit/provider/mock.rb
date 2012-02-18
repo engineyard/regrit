@@ -26,6 +26,7 @@ module Regrit
 
       def initialize(uri, options)
         @uri = uri
+        @options = options
       end
 
       def ls_remote(named=nil)
@@ -64,6 +65,14 @@ module Regrit
       end
 
       def raise_errors
+        if @uri.ssh?
+          begin
+            @git_ssh_wrapper ||= GitSSHWrapper.new(@options)
+          rescue GitSSHWrapper::PrivateKeyRequired
+            raise Regrit::PrivateKeyRequired.new(@uri)
+          end
+        end
+
         unless self.class.accessible
           raise CommandError.new('mock command', 1, '', 'stderr')
         end

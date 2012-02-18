@@ -7,6 +7,7 @@ describe Regrit::RemoteRepo do
   before { @uri = 'git://example.com/does/not/work.git' }
 
   context "(public)" do
+
     # This uri would not work if we weren't mocked
     subject { described_class.new(@uri) }
 
@@ -27,8 +28,6 @@ describe Regrit::RemoteRepo do
       it { should_not be_accessible }
 
       it "should raise TimeoutError" do
-        subject { described_class.new(@uri) }
-
         lambda { subject.refs }.should raise_error(Regrit::TimeoutError)
       end
     end
@@ -37,14 +36,21 @@ describe Regrit::RemoteRepo do
 
   context "(private)" do
     # This uri would not work if we weren't mocked
+    before { @uri = 'git@github.com:engineyard/regrit.git' }
 
     context "(mocked accessible)" do
       before { Regrit::Provider::Mock.accessible = true }
 
+      it "would raise if I used it, but can still be requested about auth" do
+        described_class.new(@uri).should be_private_key_required
+      end
+
+      it "still raises on no key" do
+        lambda { described_class.new(@uri).refs }.should raise_error(Regrit::PrivateKeyRequired)
+      end
+
       it "still raises on bad key" do
-        pending("should we care if the key is blank in mock mode?") do
-          lambda { described_class.new(@uri, :private_key => '') }.should raise_error
-        end
+        lambda { described_class.new(@uri, :private_key => '').refs }.should raise_error(Regrit::PrivateKeyRequired)
       end
 
       context "with a key" do
@@ -56,10 +62,13 @@ describe Regrit::RemoteRepo do
     context "(mocked inaccessible)" do
       before { Regrit::Provider::Mock.accessible = false }
 
+      it "would raise if I used it, but can still be requested about auth" do
+        described_class.new(@uri).should be_private_key_required
+      end
+
       it "still raises on bad key" do
-        pending("should we care if the key is blank in mock mode?") do
-          lambda { described_class.new(@uri, :private_key => '') }.should raise_error
-        end
+        lambda { described_class.new(@uri).refs }.should raise_error(Regrit::PrivateKeyRequired)
+        lambda { described_class.new(@uri, :private_key => '').refs }.should raise_error(Regrit::PrivateKeyRequired)
       end
 
       context "with a key" do

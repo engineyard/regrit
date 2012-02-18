@@ -14,7 +14,7 @@ Gem::Specification.new do |s|
   s.add_dependency "gitable",         "~> 0.2.1"
   s.add_dependency "open4"
   s.add_dependency "escape"
-  s.add_dependency "git-ssh-wrapper", "~> 0.0.1"
+  s.add_dependency "git-ssh-wrapper", "~> 0.1.0"
   s.add_dependency "system-timer19",  "~> 0.0.2"
 
   if RUBY_VERSION =~ /^1\.8/
@@ -22,7 +22,7 @@ Gem::Specification.new do |s|
   end
   
   s.add_development_dependency "rspec", "~> 2.0"
-  s.add_development_dependency "rake"
+  s.add_development_dependency "rake", "~> 0.9"
   s.add_development_dependency "rcov"
 
   s.files         = `git ls-files`.split("\n")
