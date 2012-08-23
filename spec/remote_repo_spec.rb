@@ -81,11 +81,17 @@ describe Regrit::RemoteRepo do
         it { should have_at_least(2).refs }
 
         it "has a master ref" do
-          subject.ref('master').name.should == 'refs/heads/master'
+          subject.ref('master').name.should == 'master'
+          subject.ref('master').type.should == 'heads'
+          subject.ref('master').should be_branch
+          subject.ref('master').should_not be_tag
         end
 
         it "has a refs/heads/master ref" do
-          subject.ref('refs/heads/master').name.should == 'refs/heads/master'
+          subject.ref('refs/heads/master').name.should == 'master'
+          subject.ref('refs/heads/master').type.should == 'heads'
+          subject.ref('refs/heads/master').should be_branch
+          subject.ref('refs/heads/master').should_not be_tag
         end
       end
 

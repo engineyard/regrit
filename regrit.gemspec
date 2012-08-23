@@ -7,7 +7,7 @@ Gem::Specification.new do |s|
   s.version     = Regrit::VERSION
   s.authors     = ["Martin Emde"]
   s.email       = ["martin.emde@gmail.com"]
-  s.homepage    = "http://github.org/martinemde/regrit"
+  s.homepage    = "http://github.com/engineyard/regrit"
   s.summary     = %q{Never regrit how you talk with remote git repositories}
   s.description = %q{Deal with remote git repositories, yo.}
 

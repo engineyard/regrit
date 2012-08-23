@@ -96,13 +96,19 @@ describe Regrit::RemoteRepo do
         Regrit::Provider::Mock.refs = <<-REFS
 1234567890123456789012345678901234567890\tHEAD
 1234567890123456789012345678901234567890\trefs/heads/master
+1234567890123456789012345678901234567890\trefs/tags/v1.2.3
         REFS
       end
 
       it "returns the refs as set" do
-        subject.should have(2).refs
+        subject.should have(3).refs
         subject.ref('master').abbrev_commit.should == "1234567"
+        subject.ref('master').should be_branch
         subject.refs.first.name.should == "HEAD"
+        subject.refs.first.type.should == nil
+        subject.ref('v1.2.3').type.should == 'tags'
+        subject.ref('v1.2.3').should be_tag
+        subject.ref('v1.2.3').should_not be_branch
       end
     end
   end
