@@ -53,7 +53,7 @@ module Regrit
     #
     # @return [Ref, nil] A Ref object or nil
     def ref(named)
-      load_refs(named).first
+      load_refs(named).detect { |ref| ref.match?(named) }
     end
 
     private

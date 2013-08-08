@@ -71,7 +71,7 @@ describe Regrit::RemoteRepo do
     end
 
     context "(private)" do
-      before { @uri = "git@github.com:martinemde/regrit.git" }
+      before { @uri = "git@github.com:engineyard/regrit.git" }
       subject { described_class.new(@uri, :private_key => private_key) }
 
       it { should be_private_key_required }
@@ -81,10 +81,15 @@ describe Regrit::RemoteRepo do
         it { should have_at_least(2).refs }
 
         it "has a master ref" do
-          subject.ref('master').name.should == 'master'
-          subject.ref('master').type.should == 'heads'
-          subject.ref('master').should be_branch
-          subject.ref('master').should_not be_tag
+          ref = subject.ref('master')
+          ref.name.should == 'master'
+          ref.type.should == 'heads'
+          ref.should be_branch
+          ref.should_not be_tag
+        end
+
+        it "loads master differently than the duplicate_spec/master branch instead of getting confused by it" do
+          subject.ref('master').commit.should_not eq(subject.ref('duplicate_spec/master').commit)
         end
 
         it "has a refs/heads/master ref" do

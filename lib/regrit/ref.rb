@@ -20,5 +20,9 @@ module Regrit
     def abbrev_commit
       commit[0...7]
     end
+
+    def match?(named)
+      name == named || full_name == named || [type,name].compact.join('/') == named
+    end
   end
 end
