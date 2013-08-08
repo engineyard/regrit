@@ -71,7 +71,7 @@ describe Regrit::RemoteRepo do
     end
 
     context "(private)" do
-      before { @uri = "git@github.com:martinemde/regrit.git" }
+      before { @uri = "git@github.com:engineyard/regrit.git" }
       subject { described_class.new(@uri, :private_key => private_key) }
 
       it { should be_private_key_required }
