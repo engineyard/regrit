@@ -2,6 +2,10 @@
 
 Regrit provides an interface for remote repository. This gem is used by awsm to load remote refs and check deploy key installation.
 
+# THIS BRANCH IS USED FOR TESTING
+
+Please don't remove it or change it.
+
 ## Usage
 
     @repo ||= Regrit::RemoteRepo.new(repository_uri, :private_key => deploy_key_private)
