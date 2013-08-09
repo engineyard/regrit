@@ -11,6 +11,8 @@ Gem::Specification.new do |s|
   s.summary     = %q{Never regrit how you talk with remote git repositories}
   s.description = %q{Deal with remote git repositories, yo.}
 
+  s.license = 'MIT'
+
   s.add_dependency "gitable",         "~> 0.2.1"
   s.add_dependency "open4"
   s.add_dependency "escape"
